@@ -54,6 +54,9 @@ namespace Hangman2
             //Loopa igenom tills
             while (!rättord)
             {
+
+
+
                 Console.Write("\nGissa bokstav: ");
                 char input = char.Parse(Console.ReadLine());
 
