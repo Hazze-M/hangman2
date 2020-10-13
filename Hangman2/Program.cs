@@ -122,18 +122,28 @@ namespace Hangman2
                     
 
                     Console.WriteLine("Guesscount: " + guessCount);
-                    for (int i = 0; i < guessCount; i++)
+                    for (int i = 0; i <= guessedLetters.Count; i++)
                     {
-                        
+
                         if (!guessedLetters.Contains(input))
                         {
                             guessedLetters.Add(input);
 
                             Console.WriteLine("input:" + input);
+                        Console.Write("GUESSEDLETTER:" + guessedLetters[i] + " ");
                         }
-                        Console.WriteLine("GUESSEDLETTER:" + guessedLetters[guessCount] + " ");
-                        
+
                     }
+                    //foreach (var ltr in guessedLetters)
+                    //{
+                    //    if (guessedLetters.Contains(input))
+                    //    {
+                    //        guessedLetters.Add(input);
+
+                    //        Console.WriteLine("input:" + input);
+                    //    }
+                    //    Console.WriteLine("GUESSEDLETTER:" + ltr + " ");
+                    //}
                 }
                 else
                     Console.WriteLine("Wrong input, only letters accepted!");
