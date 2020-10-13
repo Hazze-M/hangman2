@@ -1,14 +1,16 @@
 ﻿/* 
 
 Todo
-- Validering mer än en bokstav
 - Ska kunna vinna
 - Gränsnittet:Refresha sidan + färger
 - Skriv ut de bokstäver som är gissade
 - Refactoring: metod, 1-7 rader lång cirka + förklarar sig själv
 
  */
+using Hangman2.Methods;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
@@ -32,8 +34,10 @@ namespace Hangman2
             // Number of tries left
             // You won / you lost screen
 
-            string[] guessedLetters = new string[10];
-            string[] wordArray = new string[] { "grundskola", "garage", "programmering", "gavel", "telefon", "flygplan", "tavla" };
+           
+            ArrayList guessedLetters = new ArrayList();
+            int tries = 10;
+            string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
             Console.WriteLine("Hangman game\n");
 
@@ -58,8 +62,8 @@ namespace Hangman2
             }
             //Test printout
             Console.WriteLine("Hemligtord: " + hemligtord);
-            Console.WriteLine("guessedletter.length: " + guessedLetters.Length);
-
+            Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
+            
 
             //Loopa igenom tills
             while (!rättord)
@@ -68,14 +72,29 @@ namespace Hangman2
 
 
                 Console.Write("\nGissa bokstav: ");
-                char input = char.Parse(Console.ReadLine());
+
+                string input = Console.ReadLine().ToUpper();
+
+                if (input.Length > 1)
+                {
+                    Console.WriteLine("Wrong input, max 1 letter!");
+
+                }
+                else
+
 
                 if (Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
                 {
+                    
+                        
+                    
                     guessCount++;
                     for (int i = 0; i < hemligtord.Length; i++)
                     {
-                        if (hemligtord[i].ToString().Contains(input)){
+
+                        if (hemligtord[i].ToString().Contains(input))
+                        {
+
                             gissatord[i] = hemligtord[i];
                             //winGuess++;
                             //if (winGuess == hemligtord.Length)
@@ -83,33 +102,52 @@ namespace Hangman2
                             //    Console.WriteLine("YOU WIN!");
                             //        break;
                             //}
-                            Console.WriteLine(gissatord);
+                            
                             foreach (var ltr in gissatord)
                             {
+
                                 if (ltr.ToString() != null)
                                 {
-                                    Console.WriteLine("YOU WIN");
                                     break;
                                 }
+
+
                             }
-                            
-                            
+
+
                         }
                     }
-                        Console.WriteLine("Guesscount: " + guessCount);
+
+                    Console.WriteLine(gissatord);
+                    
+
+                    Console.WriteLine("Guesscount: " + guessCount);
+                    for (int i = 0; i < guessCount; i++)
+                    {
+                        
+                        if (!guessedLetters.Contains(input))
+                        {
+                            guessedLetters.Add(input);
+
+                            Console.WriteLine("input:" + input);
+                        }
+                        Console.WriteLine("GUESSEDLETTER:" + guessedLetters[guessCount] + " ");
+                        
+                    }
                 }
                 else
                     Console.WriteLine("Wrong input, only letters accepted!");
 
-                if (guessCount >= guessedLetters.Length)
+                if (guessCount >= tries)
                 {
                     Console.WriteLine("You guessed too many times!");
                     break;
                 }
 
-
+                
 
             }
+            //Console.Clear();
 
 
 
