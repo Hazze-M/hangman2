@@ -1,4 +1,14 @@
-﻿using System;
+﻿/* 
+
+Todo
+- Validering mer än en bokstav
+- Ska kunna vinna
+- Gränsnittet:Refresha sidan + färger
+- Skriv ut de bokstäver som är gissade
+- Refactoring: metod, 1-7 rader lång cirka + förklarar sig själv
+
+ */
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
