@@ -35,7 +35,8 @@ namespace Hangman2
             // You won / you lost screen
 
            
-            ArrayList guessedLetters = new ArrayList();
+            
+            HashSet<char> guessedLetters = new HashSet<char>();
             int tries = 10;
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
@@ -85,9 +86,10 @@ namespace Hangman2
 
                 if (Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
                 {
-                    
-                        
-                    
+                    guessedLetters.Add(Convert.ToChar(input[0]));
+
+
+
                     guessCount++;
                     for (int i = 0; i < hemligtord.Length; i++)
                     {
@@ -119,31 +121,17 @@ namespace Hangman2
                     }
 
                     Console.WriteLine(gissatord);
-                    
 
-                    Console.WriteLine("Guesscount: " + guessCount);
-                    for (int i = 0; i <= guessedLetters.Count; i++)
+                    
+                    foreach (char ltr in guessedLetters)
                     {
 
-                        if (!guessedLetters.Contains(input))
-                        {
-                            guessedLetters.Add(input);
-
-                            Console.WriteLine("input:" + input);
-                        Console.Write("GUESSEDLETTER:" + guessedLetters[i] + " ");
-                        }
-
+                           
+                        
+                        Console.Write(ltr + " ");
                     }
-                    //foreach (var ltr in guessedLetters)
-                    //{
-                    //    if (guessedLetters.Contains(input))
-                    //    {
-                    //        guessedLetters.Add(input);
+                    
 
-                    //        Console.WriteLine("input:" + input);
-                    //    }
-                    //    Console.WriteLine("GUESSEDLETTER:" + ltr + " ");
-                    //}
                 }
                 else
                     Console.WriteLine("Wrong input, only letters accepted!");
