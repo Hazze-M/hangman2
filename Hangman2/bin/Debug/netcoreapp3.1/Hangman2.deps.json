@@ -7,14 +7,27 @@
   "targets": {
     ".NETCoreApp,Version=v3.1": {
       "Hangman2/1.0.0": {
+        "dependencies": {
+          "Hangman2.Core": "1.0.0"
+        },
         "runtime": {
           "Hangman2.dll": {}
+        }
+      },
+      "Hangman2.Core/1.0.0": {
+        "runtime": {
+          "Hangman2.Core.dll": {}
         }
       }
     }
   },
   "libraries": {
     "Hangman2/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Hangman2.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

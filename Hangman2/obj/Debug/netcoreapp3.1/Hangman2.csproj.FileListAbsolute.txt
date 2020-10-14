@@ -11,3 +11,6 @@ C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\obj\Debug\netcoreapp3.1\Hangman2.cs
 C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\obj\Debug\netcoreapp3.1\Hangman2.dll
 C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\obj\Debug\netcoreapp3.1\Hangman2.pdb
 C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\obj\Debug\netcoreapp3.1\Hangman2.genruntimeconfig.cache
+C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\bin\Debug\netcoreapp3.1\Hangman2.Core.dll
+C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\bin\Debug\netcoreapp3.1\Hangman2.Core.pdb
+C:\Users\vinyb\CSharpCourse\Hangman\Hangman2\obj\Debug\netcoreapp3.1\Hangman2.csproj.CopyComplete

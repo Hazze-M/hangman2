@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Hangman2.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Hangman2.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Hangman2.Core.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Hangman2.Core/1.0.0": {
+      "type": "project",
+      "path": "../Hangman2.Core/Hangman2.Core.csproj",
+      "msbuildProject": "../Hangman2.Core/Hangman2.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Hangman2.Core >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\vinyb\\.nuget\\packages\\": {}
@@ -32,7 +51,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2.Core\\Hangman2.Core.csproj": {
+              "projectPath": "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2.Core\\Hangman2.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
