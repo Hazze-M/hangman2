@@ -1,9 +1,8 @@
 ﻿/* 
 
 Todo
-- Ska kunna vinna
 - Gränsnittet:Refresha sidan + färger
-- Skriv ut de bokstäver som är gissade
+
 - Refactoring: metod, 1-7 rader lång cirka + förklarar sig själv
 
  */
@@ -37,7 +36,6 @@ namespace Hangman2
            
             
             HashSet<char> guessedLetters = new HashSet<char>();
-            int tries = 10;
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
             Console.WriteLine("Hangman game\n");
@@ -47,108 +45,149 @@ namespace Hangman2
             string hemligtord = wordArray[idx];
 
 
-            char[] gissatord = new char[hemligtord.Length];
-            char gissa;
+            char[] allCorrectLetters = new char[hemligtord.Length];
             bool rättord = false;
             int guessCount = 0;
 
-            Program kontroll = new Program();
-
+            //METODER
             //Maskera hemligt ord och printa _
-            for (int i = 0; i < gissatord.Length; i++)
-            {
-                gissatord[i] = '_';
-                Console.Write(gissatord[i]);
-            }
+            PrintAndMaskWord(allCorrectLetters);
+
+            
             //Test printout
             Console.WriteLine("Hemligtord: " + hemligtord);
             Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
+
             
 
             //Loopa igenom tills
             while (!rättord)
             {
 
-
-
                 Console.Write("\nGissa bokstav: ");
-
+                
                 string input = Console.ReadLine().ToUpper();
 
+                    Console.Clear();
+                if (ValidateInput(input)) {
+
+                    guessedLetters.Add(Convert.ToChar(input[0]));
+                    guessCount++;
+
+                    // Match if input exists in "hemligtord"
+                    MatchInputAndHemligtord(hemligtord, input, allCorrectLetters);
+
+                    //Printar gissade bokstäver
+                    PrintAllCorrectLetters(allCorrectLetters);
+
+                    // Print out guessed letters
+                    PrintOutAllGuessedLetters(guessedLetters);
+
+                    // Check if guessed letters matches secret word
+                    if (CheckIfWon(allCorrectLetters, hemligtord))
+                    {
+                        break;
+                    }
+
+                    //Declare and init max number of guesses and check if reached
+                    if (MaxGuessCalc(guessCount)) {
+                        break;
+                    }
+
+
+                }
+
+            }
+
+        }
+
+        private static bool MaxGuessCalc(int guessCount)
+        {
+            int tries = 10;
+
+            if (guessCount >= tries)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("You guessed too many times!");
+                Console.ResetColor();
+
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CheckIfWon(char[] allCorrectLetters, string hemligtord)
+        {
+
+            foreach (var ch in allCorrectLetters)
+            {
+                string guessedLetters = new string(allCorrectLetters);
+                if (guessedLetters.Equals(hemligtord))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\nYOU WON!");
+                    Console.ResetColor();
+                    return true;
+                }
+            }
+            
+            return false;
+            
+        }
+
+        private static void PrintOutAllGuessedLetters(HashSet<char> allGuessedLetters)
+        {
+            Console.WriteLine();
+            foreach (char ltr in allGuessedLetters)
+            {
+                Console.Write(ltr + " ");
+
+            }
+        }
+
+        private static void PrintAllCorrectLetters(char[] correctletters)
+        {
+            Console.WriteLine(correctletters);
+        }
+
+        private static void MatchInputAndHemligtord(string hemligtord, string input, char[] gissatord)
+        {
+            for (int i = 0; i < hemligtord.Length; i++)
+            {
+                if (hemligtord[i].ToString().Contains(input))
+                {
+                    gissatord[i] = hemligtord[i];
+                }
+            }
+        }
+
+        private static bool ValidateInput(string input)
+        {
+            if (input.Length > 1 || !Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
+            {
+                    Console.ForegroundColor = ConsoleColor.Red;
                 if (input.Length > 1)
                 {
                     Console.WriteLine("Wrong input, max 1 letter!");
-
                 }
-                else
-
-
-                if (Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
+                if (!Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
                 {
-                    guessedLetters.Add(Convert.ToChar(input[0]));
-
-
-
-                    guessCount++;
-                    for (int i = 0; i < hemligtord.Length; i++)
-                    {
-
-                        if (hemligtord[i].ToString().Contains(input))
-                        {
-
-                            gissatord[i] = hemligtord[i];
-                            //winGuess++;
-                            //if (winGuess == hemligtord.Length)
-                            //{
-                            //    Console.WriteLine("YOU WIN!");
-                            //        break;
-                            //}
-                            
-                            foreach (var ltr in gissatord)
-                            {
-
-                                if (ltr.ToString() != null)
-                                {
-                                    break;
-                                }
-
-
-                            }
-
-
-                        }
-                    }
-
-                    Console.WriteLine(gissatord);
-
-                    
-                    foreach (char ltr in guessedLetters)
-                    {
-
-                           
-                        
-                        Console.Write(ltr + " ");
-                    }
-                    
-
-                }
-                else
                     Console.WriteLine("Wrong input, only letters accepted!");
-
-                if (guessCount >= tries)
-                {
-                    Console.WriteLine("You guessed too many times!");
-                    break;
                 }
-
-                
-
+                Console.ResetColor();
+                    return false;
             }
-            //Console.Clear();
+            else
+                return true;
+        }
 
-
-
-
+        private static void PrintAndMaskWord(char[] gissatord)
+        {
+            for (int i = 0; i < gissatord.Length; i++)
+            {
+                gissatord[i] = '_';
+                Console.Write(gissatord[i] + " ");
+            }
         }
     }
 }

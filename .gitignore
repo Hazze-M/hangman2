@@ -13,3 +13,4 @@ packages
 *.log
 *.dll
 *.pdb
+*.cache
