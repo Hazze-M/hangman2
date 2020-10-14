@@ -49,7 +49,6 @@ namespace Hangman2
 
             char[] gissatord = new char[hemligtord.Length];
             char gissa;
-            int winGuess = 0;
             bool rättord = false;
             int guessCount = 0;
 
