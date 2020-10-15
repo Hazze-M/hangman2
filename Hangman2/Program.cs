@@ -42,11 +42,11 @@ namespace Hangman2
 
             Random randGen = new Random();
             var idx = randGen.Next(0, 6);
-            string hemligtord = wordArray[idx];
+            string secretWord = wordArray[idx];
 
 
-            char[] allCorrectLetters = new char[hemligtord.Length];
-            bool rättord = false;  //#Dont mix english and swedish...
+            char[] allCorrectLetters = new char[secretWord.Length];
+            bool correctWord = false;  //#Dont mix english and swedish...
             int guessCount = 0;
 
             //METODER
@@ -54,14 +54,17 @@ namespace Hangman2
             PrintAndMaskWord(allCorrectLetters);
 
             
+            var hangman = new Core.Hangman(secretWord);
+
+           
             //Test printout
-            Console.WriteLine("Hemligtord: " + hemligtord);
+            Console.WriteLine("Secret word: " + secretWord);
             Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
 
             
 
             //Loopa igenom tills
-            while (!rättord)
+            while (!correctWord)
             {
 
                 Console.Write("\nGissa bokstav: ");
@@ -69,28 +72,31 @@ namespace Hangman2
                 string input = Console.ReadLine().ToUpper();
 
                     Console.Clear();
-                if (ValidateInput(input)) {
+                if (ValidateInput(input, guessedLetters)) {
 
+                    
                     guessedLetters.Add(Convert.ToChar(input[0]));
                     guessCount++;
 
-                    // Match if input exists in "hemligtord"
-                    MatchInputAndHemligtord(hemligtord, input, allCorrectLetters); //#rename "hemligtord..."to english
+                    Console.WriteLine($"Number of tries left: {hangman.numberOfTries - guessCount}");
+
+                    // Match if input exists in "secretWord"
+                    MatchInputAndHemligtord(secretWord, input, allCorrectLetters); 
 
                     //Printar gissade bokstäver //#please dont mix english and swedish.
-                    PrintAllCorrectLetters(allCorrectLetters); //#currently prints all guesses and not the correct ones?
+                    PrintAllCorrectLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
 
                     // Print out guessed letters
-                    PrintOutAllGuessedLetters(guessedLetters); 
+                  //  PrintOutAllGuessedLetters(guessedLetters); 
 
                     // Check if guessed letters matches secret word
-                    if (CheckIfWon(allCorrectLetters, hemligtord))
+                    if (CheckIfWon(allCorrectLetters, secretWord))
                     {
                         break;
                     }
 
                     //Declare and init max number of guesses and check if reached
-                    if (MaxGuessCalc(guessCount)) {
+                    if (MaxGuessCalc(guessCount, hangman.numberOfTries)) {
                         break;
                     }
 
@@ -101,10 +107,9 @@ namespace Hangman2
 
         }
 
-        private static bool MaxGuessCalc(int guessCount)
+        private static bool MaxGuessCalc(int guessCount, int tries)
         {
-            int tries = 10;
-
+           
             if (guessCount >= tries)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -145,9 +150,25 @@ namespace Hangman2
             }
         }
 
-        private static void PrintAllCorrectLetters(char[] correctletters) //#why not use a one-liner to print this in the code above?
+        private static void PrintAllCorrectLetters(char[] correctletters, HashSet<char> allGuessedLetters) //#why not use a one-liner to print this in the code above?
         {
-            Console.WriteLine(correctletters);
+           // Console.WriteLine(correctletters);
+
+            
+            foreach (char ltr in correctletters)
+            {
+
+                Console.Write(ltr + " ");
+
+            }
+
+            Console.WriteLine();
+            foreach (char ltr in allGuessedLetters)
+            {
+                
+                Console.Write(ltr + " ");
+
+            }
         }
 
         private static void MatchInputAndHemligtord(string hemligtord, string input, char[] gissatord)
@@ -161,11 +182,18 @@ namespace Hangman2
             }
         }
 
-        private static bool ValidateInput(string input)
+        private static bool ValidateInput(string input, HashSet<char> guessedLetters )
         {
+
+            if (guessedLetters.Contains(input[0]))
+            {
+                Console.WriteLine("Letter is already guessed!");
+                return false;
+            }
+
             if (input.Length > 1 || !Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
             {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Red;
                 if (input.Length > 1)
                 {
                     Console.WriteLine("Wrong input, max 1 letter!");
@@ -174,19 +202,22 @@ namespace Hangman2
                 {
                     Console.WriteLine("Wrong input, only letters accepted!");
                 }
+
+               
                 Console.ResetColor();
-                    return false;
+                   
+                return false;
             }
             else
                 return true;
         }
 
-        private static void PrintAndMaskWord(char[] gissatord) //#gissatord betyder?kanske ändra namn? 
+        private static void PrintAndMaskWord(char[] guessedLetters) //#gissatord betyder?kanske ändra namn? 
         {
-            for (int i = 0; i < gissatord.Length; i++)
+            for (int i = 0; i < guessedLetters.Length; i++)
             {
-                gissatord[i] = '_'; //# doesnt this line of code overwrite the gissatord sent in to this method?
-                Console.Write(gissatord[i] + " ");
+                guessedLetters[i] = '_'; //# doesnt this line of code overwrite the gissatord sent in to this method?
+                Console.Write(guessedLetters[i] + " ");
             }
         }
     }
