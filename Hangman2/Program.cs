@@ -46,7 +46,7 @@ namespace Hangman2
 
 
             char[] allCorrectLetters = new char[hemligtord.Length];
-            bool rättord = false;
+            bool rättord = false;  //#Dont mix english and swedish...
             int guessCount = 0;
 
             //METODER
@@ -75,13 +75,13 @@ namespace Hangman2
                     guessCount++;
 
                     // Match if input exists in "hemligtord"
-                    MatchInputAndHemligtord(hemligtord, input, allCorrectLetters);
+                    MatchInputAndHemligtord(hemligtord, input, allCorrectLetters); //#rename "hemligtord..."to english
 
-                    //Printar gissade bokstäver
-                    PrintAllCorrectLetters(allCorrectLetters);
+                    //Printar gissade bokstäver //#please dont mix english and swedish.
+                    PrintAllCorrectLetters(allCorrectLetters); //#currently prints all guesses and not the correct ones?
 
                     // Print out guessed letters
-                    PrintOutAllGuessedLetters(guessedLetters);
+                    PrintOutAllGuessedLetters(guessedLetters); 
 
                     // Check if guessed letters matches secret word
                     if (CheckIfWon(allCorrectLetters, hemligtord))
@@ -121,8 +121,8 @@ namespace Hangman2
 
             foreach (var ch in allCorrectLetters)
             {
-                string guessedLetters = new string(allCorrectLetters);
-                if (guessedLetters.Equals(hemligtord))
+                string guessedLetters = new string(allCorrectLetters);//no need for this code? see below
+                if (guessedLetters.Equals(hemligtord))              //#if guessedLetter.ToString().Equals(Hemligtord)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("\nYOU WON!");
@@ -145,7 +145,7 @@ namespace Hangman2
             }
         }
 
-        private static void PrintAllCorrectLetters(char[] correctletters)
+        private static void PrintAllCorrectLetters(char[] correctletters) //#why not use a one-liner to print this in the code above?
         {
             Console.WriteLine(correctletters);
         }
@@ -181,11 +181,11 @@ namespace Hangman2
                 return true;
         }
 
-        private static void PrintAndMaskWord(char[] gissatord)
+        private static void PrintAndMaskWord(char[] gissatord) //#gissatord betyder?kanske ändra namn? 
         {
             for (int i = 0; i < gissatord.Length; i++)
             {
-                gissatord[i] = '_';
+                gissatord[i] = '_'; //# doesnt this line of code overwrite the gissatord sent in to this method?
                 Console.Write(gissatord[i] + " ");
             }
         }

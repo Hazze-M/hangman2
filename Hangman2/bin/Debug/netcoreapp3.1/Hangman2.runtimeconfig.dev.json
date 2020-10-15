@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\vinyb\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\vinyb\\.nuget\\packages"
+      "C:\\Users\\joige\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\joige\\.nuget\\packages"
     ]
   }
 }

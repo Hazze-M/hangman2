@@ -27,19 +27,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vinyb\\.nuget\\packages\\": {}
+    "C:\\Users\\joige\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2\\Hangman2.csproj",
+      "projectUniqueName": "C:\\Users\\joige\\Documents\\hangman2\\Hangman2\\Hangman2.csproj",
       "projectName": "Hangman2",
-      "projectPath": "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2\\Hangman2.csproj",
-      "packagesPath": "C:\\Users\\vinyb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2\\obj\\",
+      "projectPath": "C:\\Users\\joige\\Documents\\hangman2\\Hangman2\\Hangman2.csproj",
+      "packagesPath": "C:\\Users\\joige\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\joige\\Documents\\hangman2\\Hangman2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vinyb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\joige\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -52,8 +52,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2.Core\\Hangman2.Core.csproj": {
-              "projectPath": "C:\\Users\\vinyb\\CSharpCourse\\Hangman\\Hangman2.Core\\Hangman2.Core.csproj"
+            "C:\\Users\\joige\\Documents\\hangman2\\Hangman2.Core\\Hangman2.Core.csproj": {
+              "projectPath": "C:\\Users\\joige\\Documents\\hangman2\\Hangman2.Core\\Hangman2.Core.csproj"
             }
           }
         }
