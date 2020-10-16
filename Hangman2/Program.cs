@@ -1,11 +1,4 @@
-﻿/* 
-
-Todo
-- Gränsnittet:Refresha sidan + färger
-
-- Refactoring: metod, 1-7 rader lång cirka + förklarar sig själv
-
- */
+﻿
 using Hangman2.Methods;
 using System;
 using System.Collections;
@@ -19,22 +12,7 @@ namespace Hangman2
     {
         static void Main(string[] args)
         {
-            //
-            // Declare variables
-            // * array with words
-            // * array to save input
-            // Generate a word
-            // Check input (valid char) + already guessed char 
-            // Check if word is complete or no more guesses
-            // Print game screen:
-            // Guessed letter 
-            // Guesses left
-            // Correct/Wrong guess
-            // Number of tries left
-            // You won / you lost screen
-
-
-
+        
             HashSet<char> guessedLetters = new HashSet<char>();
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
@@ -160,13 +138,17 @@ namespace Hangman2
 
             if (guessCount >= tries)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You guessed too many times!");
-                Console.ResetColor();
-
+                PrintGameOverScreen();             
                 return true;
             }
             return false;
+        }
+
+        private static void PrintGameOverScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("You guessed too many times!");
+            Console.ResetColor();
         }
 
         private static bool CheckIfWon(char[] allCorrectLetters, string hemligtord)
@@ -177,15 +159,20 @@ namespace Hangman2
                 string guessedLetters = new string(allCorrectLetters);//no need for this code? see below
                 if (guessedLetters.Equals(hemligtord))              //#if guessedLetter.ToString().Equals(Hemligtord)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nYOU WON!");
-                    Console.ResetColor();
+                    PrintYouWinScreen();
                     return true;
                 }
             }
 
             return false;
 
+        }
+
+        private static void PrintYouWinScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nYOU WON!");
+            Console.ResetColor();
         }
 
         private static void PrintOutAllGuessedLetters(HashSet<char> allGuessedLetters)
