@@ -61,16 +61,21 @@ namespace Hangman2
                   
                     if (MaxGuessCalc(guessCount, hangman.numberOfTries))
                     {
+                        Console.WriteLine("The correct word is: " + secretWord);
                         break;
                     }
 
                 }
                 else
                 {                  
-                    PrintNumberOftries(hangman, guessCount);
+                    
                 }
+             
+                Console.Clear();
                 Console.WriteLine();
+     
                 PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters);
+                PrintNumberOftries(hangman, guessCount);
             }
 
         }
@@ -78,6 +83,7 @@ namespace Hangman2
         private static string createRandomSecretWord()
         {
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
+
             Random randGen = new Random();
             var idx = randGen.Next(0, 6);
             return wordArray[idx];
@@ -135,7 +141,7 @@ namespace Hangman2
         private static void PrintGameOverScreen()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("You guessed too many times!");
+            Console.WriteLine("You loose, better luck next time!");
             Console.ResetColor();
         }
 
@@ -163,16 +169,7 @@ namespace Hangman2
             Console.ResetColor();
         }
 
-        private static void PrintOutAllGuessedLetters(HashSet<char> allGuessedLetters)
-        {
-            Console.WriteLine();
-            foreach (char ltr in allGuessedLetters)
-            {
-                Console.Write(ltr + " ");
-
-            }
-        }
-
+      
         private static void PrintUnmaskedAndGuessedLetters(char[] correctletters, HashSet<char> allGuessedLetters) //#why not use a one-liner to print this in the code above?
         {
             // Console.WriteLine(correctletters);
@@ -236,9 +233,7 @@ namespace Hangman2
                 Console.ResetColor();
                 return false;
             }
-            else
-
-
+            else               
                 return true;
         }
 

@@ -9,7 +9,7 @@ namespace Hangman2.Core
 
         public  Hangman(string secretWord)
         {
-            _numberOfTries = secretWord.Length + 5;
+            _numberOfTries = secretWord.Length + 2;
         }
 
         public int numberOfTries
