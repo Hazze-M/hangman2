@@ -1,11 +1,4 @@
-﻿/* 
-
-Todo
-- Gränsnittet:Refresha sidan + färger
-
-- Refactoring: metod, 1-7 rader lång cirka + förklarar sig själv
-
- */
+﻿// OO: Remove usings that aren't used
 using Hangman2.Methods;
 using System;
 using System.Collections;
@@ -19,75 +12,64 @@ namespace Hangman2
     {
         static void Main(string[] args)
         {
-            //
-            // Declare variables
-            // * array with words
-            // * array to save input
-            // Generate a word
-            // Check input (valid char) + already guessed char 
-            // Check if word is complete or no more guesses
-            // Print game screen:
-            // Guessed letter 
-            // Guesses left
-            // Correct/Wrong guess
-            // Number of tries left
-            // You won / you lost screen
-
-           
-            
+        
             HashSet<char> guessedLetters = new HashSet<char>();
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
-            Console.WriteLine("Hangman game\n");
 
+            // Print start screen
+            Console.ForegroundColor = ConsoleColor.White;
+            PrintStartScreen();
+            
+            // OO: Remove the comment and create a method instead
+            //Select a randomized secretword from wordArray.
             Random randGen = new Random();
             var idx = randGen.Next(0, 6);
             string secretWord = wordArray[idx];
 
-
+            //Instanciate variables and create new "Hangman" core that handles "numberoftries" to guess, depending on length of word
             char[] allCorrectLetters = new char[secretWord.Length];
-            bool correctWord = false;  //#Dont mix english and swedish...
+            bool correctWord = false; 
             int guessCount = 0;
-
-            //METODER
-            //Maskera hemligt ord och printa _
-            PrintAndMaskWord(allCorrectLetters);
-
-            
             var hangman = new Core.Hangman(secretWord);
 
-           
-            //Test printout
-            Console.WriteLine("Secret word: " + secretWord);
-            Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
 
-            
+            //Test printout
+            //Console.WriteLine("Secret word: " + secretWord);
+            //Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
+
+            //Print first screen that masks words, then print number of tries left.
+            PrintAndMaskWord(allCorrectLetters);
+            PrintNumberOftries(hangman, guessCount);
+
+            // OO: I suggest you remove all comments below since you have quite good names for your methods
 
             //Loopa igenom tills
             while (!correctWord)
             {
-
+                //First input to check if input is valid.
                 Console.Write("\nGissa bokstav: ");
-                
                 string input = Console.ReadLine().ToUpper();
+                Console.Clear();
+                Console.WriteLine();
+                if (ValidateInput(input, guessedLetters))
+                {
 
-                    Console.Clear();
-                if (ValidateInput(input, guessedLetters)) {
-
-                    
+                    //Add valid input to guessedletters hashset, increment guesscount.
                     guessedLetters.Add(Convert.ToChar(input[0]));
                     guessCount++;
 
-                    Console.WriteLine($"Number of tries left: {hangman.numberOfTries - guessCount}");
 
                     // Match if input exists in "secretWord"
-                    MatchInputAndHemligtord(secretWord, input, allCorrectLetters); 
+                    MatchInputAndHemligtord(secretWord, input, allCorrectLetters);
 
                     //Printar gissade bokstäver //#please dont mix english and swedish.
-                    PrintAllCorrectLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
+                    PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
+                    PrintNumberOftries(hangman, guessCount);
+
 
                     // Print out guessed letters
-                  //  PrintOutAllGuessedLetters(guessedLetters); 
+                    //  PrintOutAllGuessedLetters(guessedLetters); 
 
                     // Check if guessed letters matches secret word
                     if (CheckIfWon(allCorrectLetters, secretWord))
@@ -96,29 +78,80 @@ namespace Hangman2
                     }
 
                     //Declare and init max number of guesses and check if reached
-                    if (MaxGuessCalc(guessCount, hangman.numberOfTries)) {
+                    if (MaxGuessCalc(guessCount, hangman.numberOfTries))
+                    {
                         break;
                     }
 
 
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine();
+                    //Printar gissade bokstäver //#please dont mix english and swedish.
+                    PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
+                    PrintNumberOftries(hangman, guessCount);
                 }
 
             }
 
         }
 
+        private static void PrintStartScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(@"╒══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╕");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                             Welcome to Hangman game                                                  │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                    +---+                                                             │");
+            Console.WriteLine(@"│                                                    |   |                                                             │");
+            Console.WriteLine(@"│                                                    O   |                                                             │");
+            Console.WriteLine(@"│                                                   /|\  |                                                             │");
+            Console.WriteLine(@"│                                                   / \  |                                                             │");
+            Console.WriteLine(@"│                                                        |                                                             │");
+            Console.WriteLine(@"│                                                 =========''']                                                        │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"│                                                                                                                      │");
+            Console.WriteLine(@"╘══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╛");
+            Console.WriteLine(@"                                              Press enter to continue...");
+            Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
+            Console.WriteLine();
+        }
+
+        private static void PrintNumberOftries(Core.Hangman hangman, int guessCount)
+        {
+            Console.WriteLine($"\n\nNumber of tries left: {hangman.numberOfTries - guessCount}");
+        }
+
         private static bool MaxGuessCalc(int guessCount, int tries)
         {
-           
+
             if (guessCount >= tries)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You guessed too many times!");
-                Console.ResetColor();
-
+                PrintGameOverScreen();             
                 return true;
             }
             return false;
+        }
+
+        private static void PrintGameOverScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("You guessed too many times!");
+            Console.ResetColor();
         }
 
         private static bool CheckIfWon(char[] allCorrectLetters, string hemligtord)
@@ -129,15 +162,20 @@ namespace Hangman2
                 string guessedLetters = new string(allCorrectLetters);//no need for this code? see below
                 if (guessedLetters.Equals(hemligtord))              //#if guessedLetter.ToString().Equals(Hemligtord)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nYOU WON!");
-                    Console.ResetColor();
+                    PrintYouWinScreen();
                     return true;
                 }
             }
-            
+
             return false;
-            
+
+        }
+
+        private static void PrintYouWinScreen()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\nYOU WON!");
+            Console.ResetColor();
         }
 
         private static void PrintOutAllGuessedLetters(HashSet<char> allGuessedLetters)
@@ -150,11 +188,11 @@ namespace Hangman2
             }
         }
 
-        private static void PrintAllCorrectLetters(char[] correctletters, HashSet<char> allGuessedLetters) //#why not use a one-liner to print this in the code above?
+        private static void PrintUnmaskedAndGuessedLetters(char[] correctletters, HashSet<char> allGuessedLetters) //#why not use a one-liner to print this in the code above?
         {
-           // Console.WriteLine(correctletters);
+            // Console.WriteLine(correctletters);
 
-            
+
             foreach (char ltr in correctletters)
             {
 
@@ -165,7 +203,7 @@ namespace Hangman2
             Console.WriteLine();
             foreach (char ltr in allGuessedLetters)
             {
-                
+
                 Console.Write(ltr + " ");
 
             }
@@ -182,33 +220,38 @@ namespace Hangman2
             }
         }
 
-        private static bool ValidateInput(string input, HashSet<char> guessedLetters )
+        private static bool ValidateInput(string input, HashSet<char> guessedLetters)
         {
-
-            if (guessedLetters.Contains(input[0]))
-            {
-                Console.WriteLine("Letter is already guessed!");
-                return false;
-            }
-
             if (input.Length > 1 || !Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 if (input.Length > 1)
                 {
-                    Console.WriteLine("Wrong input, max 1 letter!");
+                    Console.WriteLine("Wrong input, max 1 letter!\nPress enter to continue.");
+                    Console.ReadLine();
+
                 }
                 if (!Regex.IsMatch(input.ToString(), @"^[a-zA-Z]+$"))
                 {
-                    Console.WriteLine("Wrong input, only letters accepted!");
-                }
+                    Console.WriteLine("Wrong input, only letters accepted!\nPress enter to continue.");
+                    Console.ReadLine();
 
-               
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+
+                return false;
+            }
+            else if (guessedLetters.Contains(input[0]))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Letter is already guessed!\nPress enter to continue.");
+                Console.ReadLine();
                 Console.ResetColor();
-                   
                 return false;
             }
             else
+
+
                 return true;
         }
 

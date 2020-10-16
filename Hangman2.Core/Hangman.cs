@@ -22,4 +22,28 @@ namespace Hangman2.Core
            
         }
     }
+    /*
+      
+    OO: You next step is to move code from Program.cs to this class
+      
+    public class Hangman
+    {
+        public Hangman(string secretWord, int nrOfGuesses)
+        {
+            // write code
+        }
+
+        public GuessResult Guess(string guess)
+        {
+            // write code
+
+            throw new NotImplementedException();
+        }
+    }
+
+    public enum GuessResult
+    {
+        CorrectGuess, IncorrectGuess, InvalidGuess, AlreadyGuessed
+    }
+    */
 }
