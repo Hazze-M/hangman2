@@ -38,25 +38,20 @@ namespace Hangman2
             HashSet<char> guessedLetters = new HashSet<char>();
             string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
 
+
+            // Print start screen
             Console.ForegroundColor = ConsoleColor.White;
             PrintStartScreen();
-            //Console.WriteLine("\t\t\tWelcome to Hangman game\n");
-            //Console.ReadLine();
-            //Console.Clear();
-
+            
+            //Select a randomized secretword from wordArray.
             Random randGen = new Random();
             var idx = randGen.Next(0, 6);
             string secretWord = wordArray[idx];
 
-
+            //Instanciate variables and create new "Hangman" core that handles "numberoftries" to guess, depending on length of word
             char[] allCorrectLetters = new char[secretWord.Length];
-            bool correctWord = false;  //#Dont mix english and swedish...
+            bool correctWord = false; 
             int guessCount = 0;
-
-            //METODER
-            //Maskera hemligt ord och printa _
-
-
             var hangman = new Core.Hangman(secretWord);
 
 
@@ -64,24 +59,22 @@ namespace Hangman2
             //Console.WriteLine("Secret word: " + secretWord);
             //Console.WriteLine("guessedletter.length: " + guessedLetters.Count);
 
-
+            //Print first screen that masks words, then print number of tries left.
             PrintAndMaskWord(allCorrectLetters);
             PrintNumberOftries(hangman, guessCount);
 
             //Loopa igenom tills
             while (!correctWord)
             {
-
+                //First input to check if input is valid.
                 Console.Write("\nGissa bokstav: ");
-
                 string input = Console.ReadLine().ToUpper();
-
                 Console.Clear();
                 Console.WriteLine();
                 if (ValidateInput(input, guessedLetters))
                 {
 
-
+                    //Add valid input to guessedletters hashset, increment guesscount.
                     guessedLetters.Add(Convert.ToChar(input[0]));
                     guessCount++;
 
