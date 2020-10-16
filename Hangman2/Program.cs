@@ -1,4 +1,4 @@
-﻿
+﻿// OO: Remove usings that aren't used
 using Hangman2.Methods;
 using System;
 using System.Collections;
@@ -21,6 +21,7 @@ namespace Hangman2
             Console.ForegroundColor = ConsoleColor.White;
             PrintStartScreen();
             
+            // OO: Remove the comment and create a method instead
             //Select a randomized secretword from wordArray.
             Random randGen = new Random();
             var idx = randGen.Next(0, 6);
@@ -40,6 +41,8 @@ namespace Hangman2
             //Print first screen that masks words, then print number of tries left.
             PrintAndMaskWord(allCorrectLetters);
             PrintNumberOftries(hangman, guessCount);
+
+            // OO: I suggest you remove all comments below since you have quite good names for your methods
 
             //Loopa igenom tills
             while (!correctWord)
