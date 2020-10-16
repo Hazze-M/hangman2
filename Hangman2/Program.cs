@@ -1,9 +1,6 @@
-﻿// OO: Remove usings that aren't used
-using Hangman2.Methods;
+﻿// OO: Remove usings that aren't used - FIXAT
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace Hangman2
@@ -14,18 +11,14 @@ namespace Hangman2
         {
         
             HashSet<char> guessedLetters = new HashSet<char>();
-            string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
-
-
+           
             // Print start screen
             Console.ForegroundColor = ConsoleColor.White;
             PrintStartScreen();
-            
-            // OO: Remove the comment and create a method instead
-            //Select a randomized secretword from wordArray.
-            Random randGen = new Random();
-            var idx = randGen.Next(0, 6);
-            string secretWord = wordArray[idx];
+
+            // OO: Remove the comment and create a method instead - FIXAT
+           //Select a randomized secretword from wordArray.
+          string secretWord =  createRandomSecretWord();
 
             //Instanciate variables and create new "Hangman" core that handles "numberoftries" to guess, depending on length of word
             char[] allCorrectLetters = new char[secretWord.Length];
@@ -42,60 +35,52 @@ namespace Hangman2
             PrintAndMaskWord(allCorrectLetters);
             PrintNumberOftries(hangman, guessCount);
 
-            // OO: I suggest you remove all comments below since you have quite good names for your methods
+            // OO: I suggest you remove all comments below since you have quite good names for your method - FIXAT
 
-            //Loopa igenom tills
+          
             while (!correctWord)
             {
-                //First input to check if input is valid.
-                Console.Write("\nGissa bokstav: ");
+                
+                Console.Write("\nGuess letter: ");
+
                 string input = Console.ReadLine().ToUpper();
                 Console.Clear();
-                Console.WriteLine();
+              
                 if (ValidateInput(input, guessedLetters))
-                {
-
-                    //Add valid input to guessedletters hashset, increment guesscount.
+                {                    
                     guessedLetters.Add(Convert.ToChar(input[0]));
                     guessCount++;
-
-
-                    // Match if input exists in "secretWord"
-                    MatchInputAndHemligtord(secretWord, input, allCorrectLetters);
-
-                    //Printar gissade bokstäver //#please dont mix english and swedish.
-                    PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
+                    MatchInputAndSecretWord(secretWord, input, allCorrectLetters);                    
+                 
                     PrintNumberOftries(hangman, guessCount);
 
-
-                    // Print out guessed letters
-                    //  PrintOutAllGuessedLetters(guessedLetters); 
-
-                    // Check if guessed letters matches secret word
                     if (CheckIfWon(allCorrectLetters, secretWord))
                     {
                         break;
                     }
-
-                    //Declare and init max number of guesses and check if reached
+                  
                     if (MaxGuessCalc(guessCount, hangman.numberOfTries))
                     {
                         break;
                     }
 
-
                 }
                 else
-                {
-                    Console.Clear();
-                    Console.WriteLine();
-                    //Printar gissade bokstäver //#please dont mix english and swedish.
-                    PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters); //#currently prints all guesses and not the correct ones?
+                {                  
                     PrintNumberOftries(hangman, guessCount);
                 }
-
+                Console.WriteLine();
+                PrintUnmaskedAndGuessedLetters(allCorrectLetters, guessedLetters);
             }
 
+        }
+
+        private static string createRandomSecretWord()
+        {
+            string[] wordArray = new string[] { "GRUNDSKOLA", "GARAGE", "PROGRAMMERING", "GAVEL", "TELEFON", "FLYGPLAN", "TAVLA" };
+            Random randGen = new Random();
+            var idx = randGen.Next(0, 6);
+            return wordArray[idx];
         }
 
         private static void PrintStartScreen()
@@ -154,13 +139,13 @@ namespace Hangman2
             Console.ResetColor();
         }
 
-        private static bool CheckIfWon(char[] allCorrectLetters, string hemligtord)
+        private static bool CheckIfWon(char[] allCorrectLetters, string secretWord)
         {
 
             foreach (var ch in allCorrectLetters)
             {
                 string guessedLetters = new string(allCorrectLetters);//no need for this code? see below
-                if (guessedLetters.Equals(hemligtord))              //#if guessedLetter.ToString().Equals(Hemligtord)
+                if (guessedLetters.Equals(secretWord))             //#if guessedLetter.ToString().Equals(Hemligtord)
                 {
                     PrintYouWinScreen();
                     return true;
@@ -200,7 +185,9 @@ namespace Hangman2
 
             }
 
+          Console.WriteLine();
             Console.WriteLine();
+
             foreach (char ltr in allGuessedLetters)
             {
 
@@ -209,7 +196,7 @@ namespace Hangman2
             }
         }
 
-        private static void MatchInputAndHemligtord(string hemligtord, string input, char[] gissatord)
+        private static void MatchInputAndSecretWord(string hemligtord, string input, char[] gissatord)
         {
             for (int i = 0; i < hemligtord.Length; i++)
             {
